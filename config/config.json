@@ -1,0 +1,83 @@
+{
+	"paths": {
+		"downloads": "$HOME/Downloads",
+		"archive_base": "/var/lib/downloads_cleanup/archive",
+		"log_dir": "/var/log/downloads_cleanup",
+		"cache_dir": "/var/cache/downloads_cleanup"
+	},
+	"routing": {
+		"keyword_map": {
+			"lecture": {
+				"target": "$HOME/Documents/University",
+				"scan": "filename"
+			},
+			"csu": {
+				"target": "$HOME/Documents/University/Assignments",
+				"scan": "filename"
+			},
+			"assignment": {
+				"target": "$HOME/Documents/University/Assignments",
+				"scan": "filename"
+			},
+			"prac": {
+				"target": "$HOME/Documents/University/Assignments",
+				"scan": "filename"
+			},
+			"peer_tutoring": {
+				"target": "$HOME/Documents/PeerTutoring",
+				"scan": "filename"
+			},
+			"invoice": {
+				"target": "$HOME/Documents/Finance",
+				"scan": "filename"
+			},
+			"cv": {
+				"target": "$HOME/Documents/Personal",
+				"scan": "filename"
+			},
+			"img-": {
+				"target": "$HOME/Pictures",
+				"scan": "filename"
+			}
+		},
+		"extension_map": {
+			"php": "$HOME/Development",
+			"py": "$HOME/Development",
+			"js": "$HOME/Development",
+			"pdf": "$HOME/Documents",
+			"docx": "$HOME/Documents",
+			"pptx": "$HOME/Documents",
+			"xlsx": "$HOME/Documents",
+			"zip": "$HOME/Programs",
+			"rar": "$HOME/Programs",
+			"deb": "$HOME/Programs",
+			"mp4": "$HOME/Videos",
+			"jpg": "$HOME/Pictures",
+			"jpeg": "$HOME/Pictures",
+			"png": "$HOME/Pictures"
+		},
+		"mime_map": {
+			"image": "$HOME/Pictures",
+			"video": "$HOME/Videos",
+			"audio": "$HOME/Music",
+			"application/pdf": "$HOME/Documents",
+			"text": "$HOME/Documents"
+		}
+	},
+	"archive": {
+		"max_age_days": 14,
+		"exclude_large_files_over_mb": 500
+	},
+	"logging": {
+		"log_dir": "/var/log/downloads_cleanup",
+		"level": "debug",
+		"jsonl_per_run": true
+	},
+	"notifications": {
+		"email_enabled": true,
+		"email_to": "you@example.com",
+		"email_from": "downloads-cleanup@localhost",
+		"email_format": "html",
+		"attach_log": true
+	}
+}
