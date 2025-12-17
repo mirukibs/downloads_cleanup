@@ -11,6 +11,14 @@
 				"target": "$HOME/Documents/University",
 				"scan": "filename"
 			},
+			"computer": {
+				"target": "$HOME/Documents/University",
+				"scan": "filename"
+			},
+			"lab": {
+				"target": "$HOME/Documents/University/Assignments",
+				"scan": "filename"
+			},
 			"csu": {
 				"target": "$HOME/Documents/University/Assignments",
 				"scan": "filename"
