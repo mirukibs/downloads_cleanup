@@ -2,16 +2,27 @@
 
 set -euo pipefail
 
-
 PROJECT_DIR="$HOME/downloads_cleanup"
 CONFIG="$PROJECT_DIR/config/config.json"
-ENGINE="$PROJECT_DIR/engine/cleanup_engine.py"
+ENGINE="$PROJECT_DIR/src/main.py"
 
-
-if ! command -v python3 >/dev/null 2>&1; then
-	echo "ERROR: python3 is required. Install it and try again." >&2
-	exit 2
+# Activate conda environment
+# I source conda.sh to ensure 'conda activate' works in a script
+if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
+    source "$HOME/miniconda3/etc/profile.d/conda.sh"
+elif [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
+    source "$HOME/anaconda3/etc/profile.d/conda.sh"
+elif [ -f "/opt/conda/etc/profile.d/conda.sh" ]; then
+    source "/opt/conda/etc/profile.d/conda.sh"
+else
+    # Fallback if standard paths don't work
+    eval "$(conda shell.bash hook)"
 fi
+
+conda activate downloads_cleanup || {
+    echo "ERROR: Conda environment 'downloads_cleanup' not found. Please run 'conda env create -f environment.yml'." >&2
+    exit 2
+}
 
 if [ ! -f "$ENGINE" ]; then
 	echo "ERROR: Engine not found at $ENGINE" >&2
@@ -23,6 +34,7 @@ if [ ! -f "$CONFIG" ]; then
   exit 2
 fi
 
+export PYTHONPATH="$PROJECT_DIR"
 
 LOCKFILE="/tmp/downloads_cleanup.lock"
 exec 200>"$LOCKFILE"
@@ -31,9 +43,7 @@ flock -n 200 || {
   exit 0
 }
 
-
 python3 "$ENGINE" --config "$CONFIG" "$@"
 EXIT_CODE=$?
 
-# release lock by exiting (flock closes when script exits)
 exit $EXIT_CODE

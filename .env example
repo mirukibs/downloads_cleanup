@@ -1,0 +1,5 @@
+# Downloads Cleanup Manager - Environment Variables
+# These variables will be loaded automatically into config.json where variables like $SMTP_USER are used.
+
+SMTP_USER=PASTE_YOUR_email@gmail.com_HERE
+SMTP_PASS=PASTE_YOUR_16_CHAR_APP_PASSWORD_HERE

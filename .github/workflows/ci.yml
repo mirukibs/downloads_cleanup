@@ -1,0 +1,40 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          auto-update-conda: true
+          activate-environment: downloads_cleanup
+          environment-file: environment.yml
+
+      - name: Install Dependencies
+        shell: bash -el {0}
+        run: |
+          conda install -y pytest
+          pip install bandit
+
+      - name: Run Security Audit (Bandit)
+        shell: bash -el {0}
+        run: |
+          # The -ll flag tells bandit to only fail the build on Medium or High severity issues
+          bandit -r src/ -ll
+
+      - name: Run Pytest
+        shell: bash -el {0}
+        run: |
+          pytest -v tests/

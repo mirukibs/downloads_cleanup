@@ -1,0 +1,53 @@
+@startuml sequence
+actor User
+participant "bin/cleanup_manager.sh" as CLI
+participant "main.py" as Main
+participant "JsonConfigAdapter" as Config
+participant "LocalFileSystemAdapter" as FS
+participant "MagicMimeDetector" as Mime
+participant "EmailNotifier" as Notifier
+participant "OrganizeDownloadsUseCase" as UseCase
+participant "Rules/Policies" as Domain
+
+User -> CLI : runs cleanup_manager.sh
+CLI -> Main : python src/main.py
+
+Main -> Config : get_paths(), get_routing_map(), get_archive_config(), get_logging_config()
+Config --> Main : configuration data
+
+Main -> UseCase : execute()
+
+UseCase -> FS : list_files(downloads_dir)
+FS --> UseCase : List<FileItem>
+
+loop for each FileItem
+    UseCase -> Domain : evaluate matching rules (Keyword, Extension, Mime)
+    
+    alt uses MimeRule
+        Domain -> Mime : detect(file_path)
+        Mime --> Domain : mime_type (e.g. "application/pdf")
+    end
+    
+    Domain --> UseCase : Target Directory OR None
+
+    alt if Target Directory matched
+        UseCase -> FS : move_file(file_path, target_dir)
+        FS --> UseCase : success/fail
+    else if no rule matched
+        UseCase -> Domain : ArchivePolicy.should_archive(FileItem)
+        Domain --> UseCase : archive/skip
+        
+        alt archive
+            UseCase -> FS : move_file(file_path, archive_dir)
+            FS --> UseCase : success/fail
+        end
+    end
+end
+
+UseCase -> Notifier : send_summary(summary_data, log_file)
+Notifier --> UseCase : success/fail
+
+UseCase --> Main : Execution Summary
+Main --> CLI : Exit Code
+CLI --> User : Finished
+@enduml

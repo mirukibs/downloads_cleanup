@@ -1,0 +1,11 @@
+name: downloads_cleanup
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.12
+  - pytest
+  - pip:
+    - python-magic
+    - mkdocs-material
+    - python-dotenv

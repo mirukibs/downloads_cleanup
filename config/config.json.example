@@ -1,9 +1,9 @@
 {
 	"paths": {
 		"downloads": "$HOME/Downloads",
-		"archive_base": "/var/lib/downloads_cleanup/archive",
-		"log_dir": "/var/log/downloads_cleanup",
-		"cache_dir": "/var/cache/downloads_cleanup"
+		"archive_base": "$HOME/downloads_cleanup/data/archive",
+		"log_dir": "$HOME/downloads_cleanup/data/logs",
+		"cache_dir": "$HOME/downloads_cleanup/data/cache"
 	},
 	"routing": {
 		"keyword_map": {
@@ -77,15 +77,22 @@
 		"exclude_large_files_over_mb": 500
 	},
 	"logging": {
-		"log_dir": "/var/log/downloads_cleanup",
+		"log_dir": "$HOME/downloads_cleanup/data/logs",
 		"level": "debug",
 		"jsonl_per_run": true
 	},
 	"notifications": {
 		"email_enabled": true,
-		"email_to": "you@example.com",
-		"email_from": "downloads-cleanup@localhost",
+		"email_to": "mirukibs12.km@gmail.com",
+		"email_from": "mirukibs12.km@gmail.com",
 		"email_format": "html",
-		"attach_log": true
+		"attach_log": true,
+		"smtp": {
+			"host": "smtp.gmail.com",
+			"port": 587,
+			"user": "$SMTP_USER",
+			"pass": "$SMTP_PASS",
+			"use_tls": true
+		}
 	}
 }
