@@ -52,3 +52,4 @@ nav:
     - Infrastructure Layer: 03_infrastructure.md
   - Configuration Guide: 04_configuration.md
   - Testing & CI/CD: 05_testing.md
+  - Contributing: 06_contributing.md
