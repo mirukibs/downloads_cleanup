@@ -1,0 +1,46 @@
+@startuml architecture
+skinparam componentStyle rectangle
+
+package "Downloads Cleanup App" {
+    
+    package "Infrastructure Layer" {
+        [JsonConfigAdapter]
+        [LocalFileSystemAdapter]
+        [MagicMimeDetector]
+        [EmailNotifier]
+    }
+
+    package "Application Layer" {
+        [OrganizeDownloadsUseCase]
+        interface IConfigProvider
+        interface IFileSystem
+        interface INotifier
+    }
+
+    package "Domain Layer" {
+        [Rules]
+        [Policies]
+        [Models]
+        interface IMimeDetector
+    }
+
+}
+
+' Dependencies
+[OrganizeDownloadsUseCase] ..> IConfigProvider : uses
+[OrganizeDownloadsUseCase] ..> IFileSystem : uses
+[OrganizeDownloadsUseCase] ..> INotifier : uses
+
+[OrganizeDownloadsUseCase] --> [Rules] : evaluates
+[OrganizeDownloadsUseCase] --> [Policies] : enforces
+[OrganizeDownloadsUseCase] --> [Models] : acts on
+
+[Rules] ..> IMimeDetector : uses
+
+' Interface Implementations
+[JsonConfigAdapter] .up.|> IConfigProvider
+[LocalFileSystemAdapter] .up.|> IFileSystem
+[EmailNotifier] .up.|> INotifier
+[MagicMimeDetector] .up.|> IMimeDetector
+
+@enduml
