@@ -1,6 +1,6 @@
 # Downloads Cleanup Manager
 
-A robust, configurable Python utility built with Domain-Driven Design (DDD) to automatically organize and archive your cluttered downloads directory.
+A robust, configurable Python utility built to automatically organize and archive your cluttered downloads directory.
 
 ## Table of Contents
 1. [Overview](#overview)
