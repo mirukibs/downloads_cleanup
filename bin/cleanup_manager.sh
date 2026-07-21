@@ -2,7 +2,8 @@
 
 set -euo pipefail
 
-PROJECT_DIR="$PWD"
+# Resolve the project root dynamically based on the script's location
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CONFIG="$PROJECT_DIR/config/config.json"
 ENGINE="$PROJECT_DIR/src/main.py"
 
